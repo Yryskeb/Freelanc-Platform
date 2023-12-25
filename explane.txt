@@ -1,0 +1,337 @@
+1. CRUD  (freelancer, customer, customer_company, order) = Done
+
+2. Регистрация/ авторизация/ Подтверждение регистрации по ПОЧТЕ/ Авторизация = Done
+
+3. Работа с картинками (загрузка, выгрузка, отображение) = Done 
+
+4. Пагинация, поиск, фильтрация = Done 
+
+5. Permission (ограничение) = Done 
+
+6. Документация проекта (swagger) = Done 
+
+7. Подключение Celery для отправки оповещенний/почты =  Done 
+
+8. История заказов = Done 
+
+pip uninstall Django
+pip install Django==5.0
+
+sudo systemctl restart gunicorn
+
+sudo systemctl restart nginx
+
+sudo systemctl restart supervisor
+
+sudo systemctl restart redis
+
+sudo supervisorctl restart celery
+
+http://13.50.5.59/api/freelancer/register/   -   регистрация как freelancer 
+
+http://13.50.5.59/api/customer/register/     -   регистрация как Customer 
+
+http://13.50.5.59/api/freelancer/login/      -   log in как Freelancer 
+
+http://13.50.5.59/api/customer/login/        -   log in как Customer
+
+http://13.50.5.59/api/freelancer/                -   CRUD, поиск, фильтрация Freelancer
+
+http://13.50.5.59/api/customer/                  -   CRUD, поискб фильтрация Customer 
+
+http://13.50.5.59/api/freelancer/reset_password/   -   отправка url-/reset/new/password/ на email для перезапись пароля Freelancer
+
+http://13.50.5.59/api/customer/reset_password/   -   отправка url-/reset/new/password/ на email для перезапись пароля Customer
+
+http://13.50.5.59/api/freelancer/reset/new/password/?make_sure=(uuid)  -   вастанавление перезапись пароля Freelancer
+
+http://13.50.5.59/api/customer/reset/new/password/?make_sure=(uuid)  -   вастанавление перезапись пароля Customer
+
+http://13.50.5.59/api/category/              -   CRUD (create, update, partial-update, delete) - только для admin, остальные для всех
+
+http://13.50.5.59/api/order/create/          -   только create и только для Customer 
+
+http://13.50.5.59/api/order/                 -   CRUD только для кто создал заказ и авторизованного Customer 
+
+http://13.50.5.59/api/proposal/              -   CRUD предложение для order от Freelancer 
+
+http://13.50.5.59/api/order/<int:pk>/accept/proposal/<int:freelancer>/   -   POST Принятие предложение от Freelancer <int:pk>=id Order, <int:freelancer>=id Freelancer
+
+http://13.50.5.59/api/order/<int:pk>/freelancer/completed/   -   POST запрос на подтверждение завершения заказа от Freelancer    
+                                                                                                                                    
+http://13.50.5.59/api/order/<int:pk>/customer/completed/   -   POST запрос на подтверждение завершения заказа от Customer
+
+http://13.50.5.59/api/customer/<int:pk>/favorites/   -   GET, POST, DELETE Customer добовляет в избранные Freelancer <int:pk>=id Freelancer 
+
+http://13.50.5.59/api/freelancer/<int:pk>/rating/      -   GET, POST, DELETE Customer ставить рейтинг для Freelancer <int:pk>=id Freelancer
+
+http://13.50.5.59/api/customer/<int:pk>/freel_comments/  -   GET, POST Customer оставляет коментарий под профилем Freelancer <int:pk>=id Freelancer
+
+http://13.50.5.59/api/customer/<int:pk>/freel_comments/?comment_id=2 -   DELETE Customer удаляет оставленный комент под comment_id=id у определенного Freelancer <int:pk>=id Freelancer
+
+http://13.50.5.59/api/freelancer/<int:pk>/cust_comments/     -   GET, POST Freelancer оставляет коментарий под профилем Customer <int:pk>=id Customer
+
+http://13.50.5.59/api/freelancer/<int:pk>/cust_comments/?comment_id=2 -   DELETE Freelancer удаляет оставленный комент под comment_id=id у определенного Customer <int:pk>=id Customer 
+
+http://13.50.5.59/api/chat/      -   CRUD - пока только Customer
+
+ws://13.50.5.59/ws/c_chat/Anime/?token=     -   написать в чать как Customer или Freelancer
+
+
+УСТАНОВЛЕННЫЕ БИБЛИОТЕКИ:
+
+
+aiohttp>=3.8.4:
+ Aiohttp - это библиотека для создания сетевых приложений с использованием асинхронного программирования (asyncio) в Python. Она предоставляет возможности для работы с HTTP-запросами и ответами, а также поддерживает WebSocket.
+
+aiohttp-retry==2.8.3:
+ Aiohttp-retry - это дополнительная библиотека для aiohttp, предоставляющая механизм повторных попыток при выполнении HTTP-запросов.
+
+aioredis==2.0.1:
+ Aioredis - это асинхронный клиент для работы с Redis, предоставляющий удобный интерфейс для выполнения операций с этой распределенной системой хранения данных.
+
+aiosignal==1.3.1:
+ Aiosignal - это библиотека для работы с сигналами в асинхронном (asyncio) коде.
+
+amqp==5.2.0:
+ AMQP - это библиотека, реализующая протокол Advanced Message Queuing Protocol (AMQP), используемый для обмена сообщениями между компонентами системы.
+
+asgiref>=3.5.0,<4:
+ Asgiref - это общая библиотека, предоставляющая абстракции для асинхронных серверов, таких как Django Channels.
+
+async-timeout==4.0.3:
+ Async-timeout - это библиотека для управления асинхронными таймаутами в Python.
+
+attrs==23.1.0:
+ Attrs - это библиотека для создания классов, облегчающая определение атрибутов и их значений.
+
+autobahn==23.6.2:
+ Autobahn - это реализация WebSocket-протокола для Python, обеспечивающая возможность создания и обработки WebSocket-соединений.
+
+Automat==22.10.0:
+ Automat - это библиотека для создания конечных автоматов в Python.
+
+billiard==4.2.0:
+ Billiard - это форк библиотеки multiprocessing в Python, предоставляющий поддержку процессов и потоков.
+
+celery==5.3.6:
+ Celery - это библиотека для создания распределенных очередей задач в Python.
+
+certifi==2023.11.17:
+ Certifi - это пакет, предоставляющий корневые SSL-сертификаты для проверки подлинности SSL-соединений.
+
+cffi==1.16.0:
+ CFFI - это библиотека для вызова функций на C из Python, обеспечивающая взаимодействие между кодом на Python и C.
+
+channels==4.0.0:
+ Channels - это расширение Django, добавляющее поддержку асинхронных запросов, в том числе поддержку WebSocket.
+
+channels-redis==4.1.0:
+ Channels-redis - это библиотека для использования Redis в качестве бэкенда для Django Channels.
+
+charset-normalizer>=2.0,<4.0:
+ Charset-normalizer - это библиотека для нормализации и преобразования символьных наборов в Python.
+
+click==8.1.7:
+ Click - это библиотека для создания командных интерфейсов в стиле Flask для приложений на Python.
+
+click-didyoumean==0.3.0:
+ Click-didyoumean - это дополнительное расширение для Click, добавляющее поддержку автокоррекции команд.
+
+click-plugins==1.1.1:
+ Click-plugins - это библиотека для управления плагинами в Click.
+
+click-repl==0.3.0:
+ Click-repl - это библиотека для создания интерактивных командных интерфейсов с использованием Click.
+
+constantly==23.10.4:
+ Constantly - это библиотека для создания Python-констант.
+
+cryptography==41.0.7:
+ Cryptography - это библиотека для криптографии в Python, предоставляющая функции шифрования, подписи, хеширования и другие.
+
+daphne==4.0.0:
+ Daphne - это сервер для протокола ASGI (Asynchronous Server Gateway Interface) для Django.
+
+Django==5.0:
+ Django - это веб-фреймворк на языке Python для разработки веб-приложений.
+
+django-cors-headers==4.3.1:
+ Django-cors-headers - это расширение Django для обработки заголовков CORS (Cross-Origin Resource Sharing).
+
+django-filter==23.5:
+ Django-filter - это библиотека для фильтрации данных в Django.
+
+djangochannelsrestframework==1.2.0:
+ Djangochannelsrestframework - это расширение Django Channels для взаимодействия с RESTful API.
+
+djangorestframework==3.14.0:
+ Djangorestframework - это фреймворк Django для создания веб-сервисов API.
+
+djangorestframework-simplejwt==5.3.1:
+ Djangorestframework-simplejwt - это расширение Django Rest Framework для добавления аутентификации с использованием JSON Web Tokens (JWT).
+
+drf-yasg==1.21.7:
+ Drf-yasg - это расширение Django Rest Framework для создания интерактивной документации API с использованием Swagger.
+
+exceptiongroup==1.2.0:
+ Exceptiongroup - это библиотека для обработки и группировки исключений в Python.
+
+flower==2.0.1:
+ Flower - это веб-интерфейс и монитор для Celery.
+
+frozenlist==1.4.0:
+ Frozenlist - это библиотека для работы с неизменяемыми списками в Python.
+
+gunicorn==21.2.0:
+ Gunicorn - это WSGI-сервер для запуска веб-приложений Python.
+
+h11==0.14.0:
+ H11 - это библиотека для создания простых HTTP-серверов и клиентов.
+
+h2==4.1.0:
+ H2 - это реализация протокола HTTP/2 для Python.
+
+hpack==4.0.0:
+ Hpack - это библиотека для сжатия HTTP-заголовков в Python.
+
+humanize==4.9.0:
+ Humanize - это библиотека для создания человекочитаемых строк и вывода данных.
+
+Hypercorn==0.15.0:
+ Hypercorn - это ASGI-сервер (Asynchronous Server Gateway Interface) для Python.
+
+hyperframe==6.0.1:
+ Hyperframe - это библиотека для работы с HTTP/2 Frame.
+
+hyperlink==21.0.0:
+ Hyperlink - это библиотека для работы с гиперссылками (URL) в Python.
+
+idna==3.6:
+ IDNA - это библиотека для обработки и преобразования строк доменных имен в Python.
+
+incremental==22.10.0:
+ Incremental - это библиотека для работы с версиями в Python.
+
+inflection==0.5.1:
+ Inflection - это библиотека для преобразования слов в формы единственного и множественного числа, а также другие манипуляции с текстом.
+
+kombu==5.3.4:
+ Kombu - это библиотека для работы с сообщениями в фоновых задачах в Python.
+
+msgpack==1.0.7:
+ Msgpack: это библиотека для сериализации данных в формат MessagePack.
+
+multidict==6.0.4:
+ Multidict: это библиотека для работы с неизменяемыми словарями в Python.
+
+packaging==23.2:
+ Packaging: это библиотека для управления пакетами в Python.
+
+Pillow==10.1.0:
+ Pillow: это форк библиотеки Python Imaging Library (PIL) для работы с изображениями.
+
+priority==2.0.0:
+ Priority: это библиотека для работы с приоритетами в Python.
+
+prometheus-client==0.19.0: 
+Prometheus-client - это библиотека для интеграции приложений с системой мониторинга Prometheus.
+
+prompt-toolkit==3.0.41:
+Это библиотека для создания интерактивных командных интерфейсов (CLI) в Python. Она предоставляет множество инструментов для создания интерактивных приложений с автодополнением, обработкой событий клавиатуры и многое другое.
+
+psycopg2-binary==2.9.9:
+Psycopg2 - это адаптер базы данных PostgreSQL для Python. psycopg2-binary предоставляет бинарные (скомпилированные) версии библиотеки, что делает установку проще.
+
+pyasn1==0.5.1:
+Библиотека Python для работы с структурами данных, определенными в стандартах ASN.1 (Abstract Syntax Notation One). ASN.1 используется для сериализации и десериализации структур данных в формате, независимом от платформы.
+
+pyasn1-modules==0.3.0:
+Это модули для pyasn1, предоставляющие дополнительные структуры данных и функциональность для работы с ASN.1.
+
+pycparser==2.21:
+Эта библиотека предоставляет парсер для языка C. Она используется для анализа кода на языке C в приложениях Python, таких как компиляторы или инструменты статического анализа.
+
+PyJWT==2.8.0:
+Библиотека для работы с JSON Web Tokens (JWT). Она предоставляет средства для создания и проверки JWT, которые используются для аутентификации и передачи данных между сторонами.
+
+pyOpenSSL==23.3.0:
+Python-обертка для библиотеки OpenSSL. Она предоставляет возможности для работы с шифрованием, сертификатами и другими криптографическими функциями.
+
+python-dateutil==2.8.2:
+Библиотека для обработки дат и времени в Python. Она предоставляет удобные средства для работы с разными форматами дат и времени.
+
+python-decouple==3.8:
+Простой пакет для обработки конфигураций Python. Позволяет разделять настройки приложения от кода.
+
+pytz==2023.3.post1:
+Библиотека для работы с часовыми поясами в Python. Предоставляет поддержку множества часовых поясов и операций с ними.
+
+PyYAML==6.0.1:
+YAML-процессор для Python. Позволяет удобно работать с данными, представленными в формате YAML.
+
+redis==5.0.1:
+Python-клиент для работы с базой данных Redis. Предоставляет удобные средства взаимодействия с Redis из приложений Python.
+
+requests==2.31.0:
+HTTP-библиотека для Python. Используется для отправки HTTP-запросов и работы с ответами.
+
+service-identity==23.1.0:
+Библиотека для проверки подлинности служб и сертификатов X.509 в Python.
+
+six==1.16.0:
+Библиотека, предоставляющая утилиты для обеспечения совместимости между Python 2 и Python 3.
+
+sqlparse==0.4.4:
+Парсер SQL-запросов для Python. Используется для анализа и форматирования SQL-кода.
+
+taskgroup==0.0.0a4:
+Простая библиотека для организации групп задач в Python.
+
+tomli==2.0.1:
+TOML-процессор для Python. Предоставляет средства для работы с данными в формате TOML.
+
+tornado==6.4:
+Асинхронный веб-фреймворк для Python. Используется для создания веб-приложений и обработки асинхронных HTTP-запросов.
+
+twilio==8.10.3:
+Python-клиент для взаимодействия с сервисами Twilio. Используется для отправки SMS, создания голосовых звонков и других коммуникационных задач.
+
+Twisted==23.10.0:
+Сетевой фреймворк, предоставляющий инструменты для работы с асинхронными сетевыми приложениями.
+
+txaio==23.1.1:
+Асинхронная библиотека для работы с асинхронными приложениями Twisted.
+
+typing-extensions==4.8.0:
+Расширения для модуля typing в Python. Предоставляет дополнительные средства для работы с типами данных.
+
+tzdata==2023.3:
+Зональные данные для работы с часовыми поясами в Python.
+
+uritemplate==4.1.1:
+Библиотека для разбора и формирования URI-шаблонов.
+
+urllib3==2.1.0:
+HTTP-библиотека для Python. Используется для работы с HTTP-запросами и ответами.
+
+vine==5.1.0:
+Библиотека для работы с асинхронными задачами в Python.
+
+wcwidth==0.2.12:
+Библиотека для определения ширины символов при выводе в терминале.
+
+websocket-client==1.7.0:
+Клиент для работы с WebSocket-протоколом.
+
+wsproto==1.2.0:
+Библиотека для работы с WebSocket-протоколом на низком уровне.
+
+yarl==1.9.4:
+URL-библиотека для Python. Предоставляет удобные средства для работы с URL.
+
+zope.interface==6.1:
+Библиотека для определения и использования интерфейсов в Python.
+
+
+Poetry - для библиотек 

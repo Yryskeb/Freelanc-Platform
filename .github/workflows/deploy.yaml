@@ -1,0 +1,54 @@
+on:
+  push:
+    branches:
+      - deployaws
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.5.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Update Host Key in known_hosts
+      run: |
+        mkdir -p ~/.ssh
+        touch ~/.ssh/known_hosts
+        ssh-keyscan -H 13.50.5.59 >> ~/.ssh/known_hosts
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.10.12 
+
+
+    - name: Install dependencies and Setup PostgreSQL
+      run: |
+        chmod +x setup.sh
+        ./setup.sh
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        DEBUG: ${{ secrets.DEBUG }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+        EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+          
+    - name: Deploy to AWS via SSH
+      run: |
+        # Проверка наличия файлов
+        if [ -z "$(ls -A)" ]; then
+          echo "No files to deploy."
+          exit 0
+        fi
+        scp -r * ubuntu@13.50.5.59:~/Upwork/
+        ssh ubuntu@13.50.5.59 "cd Upwork && chmod +x deploy.sh && ./deploy.sh"
